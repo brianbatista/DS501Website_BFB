@@ -1,6 +1,6 @@
 # Fieldnotes — portfolio prototype
 
-A local, eight-page design study for a portfolio connecting research, teaching, and creative practice. “Your Name,” every project, and every teaching example are fictional placeholders. SVG compositions stand in for images; no remote images, fonts, credentials, publications, or results are used.
+A local, eight-page design study for a portfolio connecting research, teaching, and creative practice. The name and About biography belong to Brian Faggin Batista and use his supplied background. Projects and teaching examples remain fictional placeholders. SVG compositions stand in for images; no remote images or fonts are used.
 
 ## Run
 

@@ -14,7 +14,7 @@ test('all eight routes produce complete standalone pages', async () => {
     assert.match(html, /<!doctype html>/i);
     assert.equal((html.match(/<h1[ >]/g) || []).length, 1, page.path);
     assert.match(html, /<main id="main" tabindex="-1">/);
-    assert.match(html, /Fictional content/);
+    assert.match(html, /Sample projects/);
   }
 });
 
