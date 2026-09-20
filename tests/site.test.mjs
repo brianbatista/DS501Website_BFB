@@ -38,3 +38,31 @@ test('not-found page provides a working recovery path', async () => {
   assert.match(html, /Page not found/);
   assert.match(html, /href="\/">Return home/);
 });
+
+test('GitHub Pages build keeps all routes and assets inside the repository URL', async () => {
+  const prefix = '/DS501Website_BFB';
+  try {
+    await build({ basePath: `${prefix}/` });
+    const files = [...pages.map(page => `${page.path}/index.html`), '/404.html'];
+    for (const file of files) {
+      const html = await readFile(`${root}dist${file}`, 'utf8');
+      assert.match(html, /href="#main"/, `${file}: skip link remains local`);
+      for (const [, href] of html.matchAll(/(?:href|src)="([^"]+)"/g)) {
+        if (href.startsWith('#')) continue;
+        assert.ok(href.startsWith(`${prefix}/`), `${file}: ${href}`);
+        const localPath = href.slice(prefix.length);
+        const target = `${root}dist${localPath}${localPath.endsWith('/') ? 'index.html' : ''}`;
+        assert.ok((await stat(target)).isFile(), `${file}: ${href}`);
+      }
+    }
+    const home = await readFile(`${root}dist/index.html`, 'utf8');
+    assert.match(home, /Ways of seeing/);
+    const recovery = await readFile(`${root}dist/404.html`, 'utf8');
+    assert.ok(recovery.includes(`href="${prefix}/">Return home`));
+    const research = await readFile(`${root}dist/research/index.html`, 'utf8');
+    assert.ok(research.includes(`href="${prefix}/research/" aria-current="page"`));
+  } finally {
+    // Leave the normal localhost preview usable after running the test suite.
+    await build({ basePath: '' });
+  }
+});

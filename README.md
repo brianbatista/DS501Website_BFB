@@ -14,9 +14,28 @@ npm test        # Build and check routes, links, assets, and recovery page
 
 Without npm, use `node scripts/dev.mjs`, `node scripts/build.mjs`, or `node --test tests/site.test.mjs`. The development server rebuilds when `src/` or `public/` changes; refresh the browser to see edits. Stop it with Ctrl+C. Generated `dist/` is ignored by Git.
 
+## Publish to GitHub Pages
+
+The repository contains source files; the website entry point is generated at `dist/index.html`. Publishing the repository root directly can show this README instead of the portfolio.
+
+1. In the repository's **Settings → Pages → Build and deployment**, set **Source** to **GitHub Actions**.
+2. Commit and push the changes, including `.github/workflows/pages.yml`, to `main`.
+3. In **Actions**, wait for **Deploy portfolio to GitHub Pages** to finish. You can also start it with **Run workflow**.
+4. Open [the portfolio](https://brianbatista.github.io/DS501Website_BFB/).
+
+The workflow tests the site, builds it, and publishes only `dist/`. It reads the Pages base path so links, CSS, the favicon, and the 404 recovery link work under `/DS501Website_BFB/`. Root-hosted sites and custom domains use an empty base path automatically. Do not commit `dist/` or select **Deploy from a branch** for this workflow.
+
+To generate the repository-path build manually:
+
+```sh
+BASE_PATH=/DS501Website_BFB npm run build
+```
+
+Run `npm run dev` to rebuild for the normal root-based local preview afterward.
+
 ## Stack and structure
 
-Modern semantic HTML, layered CSS, and native JavaScript ES modules. A small Node build assembles reusable template components into real static pages; no client-side framework or JavaScript is required. Native `<details>` elements handle keyboard-accessible teaching disclosures. This keeps the design prototype small and easy to change without a CMS, backend, or hosting configuration.
+Modern semantic HTML, layered CSS, and native JavaScript ES modules. A small Node build assembles reusable template components into real static pages; no client-side framework or JavaScript is required. Native `<details>` elements handle keyboard-accessible teaching disclosures. This keeps the design prototype small and easy to change without a CMS or backend.
 
 - `src/components.mjs`: shared document shell, navigation, headings, links, figures, and geometric SVG placeholders.
 - `src/pages.mjs`: the eight page compositions and placeholder copy.
@@ -48,7 +67,7 @@ Academic pages use a light paper surface, structured metadata, and readable narr
 
 Browser checks cover all eight routes at 1440, 768, 390, and 320 CSS pixels, including horizontal overflow and heading presence. Representative desktop, tablet, and mobile layouts were visually inspected. Keyboard checks cover the skip link, navigation, and teaching disclosure activation with Enter and Space. Static checks verify all internal links and assets. Focus outlines, semantic landmarks, current-page labels, and a recovery page are included. This is not a full assistive-technology audit.
 
-The work is intentionally static: no playable VR project, actual photography, publication downloads, contact form, analytics, or deployment integration. Real imagery should receive descriptive alternative text when replacing the decorative, hidden SVG placeholders.
+The work is intentionally static: no playable VR project, actual photography, publication downloads, contact form, or analytics. Real imagery should receive descriptive alternative text when replacing the decorative, hidden SVG placeholders.
 
 ## Questions for the next iteration
 
